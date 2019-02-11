@@ -27,7 +27,7 @@ class RegisterController extends Controller implements LoginUserListener
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -39,30 +39,19 @@ class RegisterController extends Controller implements LoginUserListener
         $this->middleware('guest');
     }
 
-
     public function callback(AuthenticateUser $authenticator, LoginHandleRequest $request)
     {
-        /**
-         * state	8CWcIZRyaiBT4TUnV5gTVQX6M5VE9oZDEOMPNBNq
-        error	access_denied
-         */
-
         return $authenticator->execute($this);
     }
 
     public function successfulLogin()
     {
-        return redirect('/');
-    }
-
-    public function refusedLogin()
-    {
-
+        return redirect($this->redirectTo);
     }
 
     public function failedLogin()
     {
-        return redirect('/');
+        return redirect($this->redirectTo);
     }
 
 }

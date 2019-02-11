@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Contracts\Auth\Factory as Auth;
 
 class LoginController extends Controller
 {
@@ -22,6 +22,8 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    protected $auth;
+
     /**
      * Where to redirect users after login.
      *
@@ -32,11 +34,12 @@ class LoginController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param Auth $auth
      */
-    public function __construct()
+    public function __construct(Auth $auth)
     {
         $this->middleware('guest')->except('logout');
+        $this->auth = $auth;
     }
 
     public function login()
@@ -50,7 +53,7 @@ class LoginController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        $this->auth->logout();
 
         return redirect('/');
     }

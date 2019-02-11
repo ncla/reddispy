@@ -11,16 +11,10 @@
 |
 */
 
-Route::get('/', function (Illuminate\Support\MessageBag $bag) {
-//    dump(Auth::user());
-
-//    Artisan::call('fetch:posts', [
-//        'subreddits' => ['Muse', 'Radiohead'],
-//        '--pages' => '10'
-//    ]);
+Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/account/login', 'Auth\LoginController@login');
-Route::get('/account/callback', 'Auth\RegisterController@callback');
-Route::get('/account/logout', 'Auth\LoginController@logout');
+Route::get('/auth/login', 'Auth\LoginController@login');
+Route::get('/auth/callback', 'Auth\RegisterController@callback');
+Route::get('/auth/logout', 'Auth\LoginController@logout');

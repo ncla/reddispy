@@ -55,7 +55,7 @@ class RedditLoginTest extends TestCase
 
         $this->mockSocialiteFacade('bob');
 
-        $response = $this->get('/account/callback?state=123&code=123');
+        $response = $this->get('/auth/callback?state=123&code=123');
 
         $response->assertRedirect();
         $response->assertLocation('/');
@@ -67,7 +67,7 @@ class RedditLoginTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->get('/account/login');
+        $response = $this->get('/auth/login');
 
         $response->assertRedirect();
         $this->assertContains('reddit.com', $response->getTargetUrl());
@@ -75,7 +75,7 @@ class RedditLoginTest extends TestCase
 
     public function testHandleRedirectsToLoginIfCodeOrStateIsMissing()
     {
-        $response = $this->get('/account/callback');
+        $response = $this->get('/auth/callback');
 
         $response->assertSessionHasErrors();
         $response->assertRedirect();
@@ -86,7 +86,7 @@ class RedditLoginTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-                         ->get('/account/login');
+                         ->get('/auth/login');
 
         $response->assertRedirect('/');
         $this->assertAuthenticated();
@@ -100,7 +100,7 @@ class RedditLoginTest extends TestCase
 
         $this->assertAuthenticated();
 
-        $logoutResponse = $this->get('/account/logout');
+        $logoutResponse = $this->get('/auth/logout');
 
         $this->assertGuest();
         $logoutResponse->assertLocation('/');
@@ -110,7 +110,7 @@ class RedditLoginTest extends TestCase
     {
         $this->assertGuest();
 
-        $logoutResponse = $this->get('/account/logout');
+        $logoutResponse = $this->get('/auth/logout');
 
         $logoutResponse->assertLocation('/');
 
@@ -131,7 +131,7 @@ class RedditLoginTest extends TestCase
             ]
         );
 
-        $response = $this->get('/account/callback?state=123&code=123');
+        $response = $this->get('/auth/callback?state=123&code=123');
 
         $response->assertRedirect();
         $response->assertLocation('/');

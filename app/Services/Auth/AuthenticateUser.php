@@ -4,8 +4,8 @@ namespace App\Services\Auth;
 
 use App\Http\Controllers\Auth\LoginUserListener;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Contracts\Factory as Socialite;
+use Illuminate\Contracts\Auth\Factory as Auth;
 
 /**
  * Class AuthenticateUser
@@ -22,10 +22,15 @@ class AuthenticateUser
     private $socialite;
     private $userService;
 
-    public function __construct(Socialite $socialiteProvider, UserService $userService)
+    public function __construct(
+        Socialite $socialiteProvider,
+        UserService $userService,
+        Auth $auth
+    )
     {
         $this->socialite = $socialiteProvider;
         $this->userService = $userService;
+        $this->auth = $auth;
     }
 
     /**
@@ -55,7 +60,7 @@ class AuthenticateUser
         );
 
         // TODO: https://laravel.com/docs/5.7/contracts#contract-reference
-        Auth::login($user, true);
+        $this->auth->login($user, true);
 
         return $listener->successfulLogin();
     }
