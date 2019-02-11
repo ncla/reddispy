@@ -9,11 +9,18 @@ use GuzzleHttp\TransferStats;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Class PoolPromiseReactive
+ *
+ * Only good for predetermined requests in advance, not dynamic.
+ *
+ * @package App\Scraper\Base\RequestManager
+ */
 abstract class PoolPromiseReactive extends BaseRequestManager
 {
     protected $requestPool;
 
-    protected $concurrency = 1;
+    public $concurrency = 1;
 
     protected $requestOptions = [];
 
@@ -23,7 +30,6 @@ abstract class PoolPromiseReactive extends BaseRequestManager
      *
      * https://stackoverflow.com/questions/22649888/how-to-match-a-result-to-a-request-when-sending-multiple-requests
      * http://docs.guzzlephp.org/en/stable/quickstart.html#concurrent-requests
-     * https://github.com/guzzle/guzzle/issues/1108
      */
     protected function requestGenerator()
     {
@@ -44,7 +50,6 @@ abstract class PoolPromiseReactive extends BaseRequestManager
 
     public function sendRequests()
     {
-        // TODO: Fix hardcoded dependency?
         $this->requestPool = new Pool($this->client, $this->requestGenerator(), [
             'concurrency' => $this->concurrency,
             'fulfilled' => function (Response $response) {
@@ -59,13 +64,6 @@ abstract class PoolPromiseReactive extends BaseRequestManager
                     $statsStr = ($stats->hasResponse() ? $stats->getResponse()->getStatusCode() : 0) . ' | ' .
                         $stats->getTransferTime() . ' | ' . $stats->getEffectiveUri();
 
-                    dump($stats->getResponse()->getHeaders());
-
-//                    echo $stats->getResponse()->getHeader('X-Ratelimit-Used')[0];
-//                    echo $stats->getResponse()->getHeader('X-Ratelimit-Remaining')[0];
-//                    echo $stats->getResponse()->getHeader('X-Ratelimit-Reset')[0];
-
-                    echo $statsStr . "\n";
                     Log::debug($statsStr);
                 }
             ]

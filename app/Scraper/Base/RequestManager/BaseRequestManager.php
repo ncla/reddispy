@@ -2,6 +2,7 @@
 
 namespace App\Scraper\Base\RequestManager;
 
+use App\Factories\RequestClientFactoryInterface;
 use App\Scraper\Base\HasOptions;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
@@ -24,10 +25,16 @@ abstract class BaseRequestManager
     protected $requests = [];
     protected $responses = [];
 
-    public function __construct(ClientInterface $client)
+    public function __construct(RequestClientFactoryInterface $clientFactory)
     {
-        $this->client = $client;
+        $this->client = $this->getClient($clientFactory);
     }
+
+    /**
+     * @param RequestClientFactoryInterface $clientFactory
+     * @return ClientInterface
+     */
+    abstract protected function getClient(RequestClientFactoryInterface $clientFactory);
 
     abstract public function createRequests();
 

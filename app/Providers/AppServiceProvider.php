@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Factories\RequestClientFactory;
+use App\Factories\RequestClientFactoryInterface;
 use App\Scraper\Base\Storage\DatabaseStorageInterface;
 use App\Scraper\Base\Storage\EloquentDatabaseStorage;
 use App\Scraper\Base\Storage\InsertModel;
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public $bindings = [
         ClientInterface::class => Client::class,
+        RequestClientFactoryInterface::class => RequestClientFactory::class,
         BaseRequestManager::class => BaseOneByOneRequestManager::class,
         DatabaseStorageInterface::class => InsertModel::class,
         PromisorInterface::class => Pool::class

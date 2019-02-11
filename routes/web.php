@@ -12,8 +12,12 @@
 */
 
 Route::get('/', function (Illuminate\Support\MessageBag $bag) {
-    dump(Auth::user());
+//    dump(Auth::user());
 
+//    Artisan::call('fetch:posts', [
+//        'subreddits' => ['Muse', 'Radiohead'],
+//        '--pages' => '10'
+//    ]);
     return view('welcome');
 });
 

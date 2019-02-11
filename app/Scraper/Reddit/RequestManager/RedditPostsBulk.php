@@ -2,18 +2,22 @@
 
 namespace App\Scraper\Reddit\RequestManager;
 
-use App\Scraper\Base\RequestManager\PoolPromiseReactive;
+use App\Factories\RequestClientFactoryInterface;
+use App\Scraper\Base\RequestManager\PoolPromiseReactiveDynamic;
 use App\Scraper\Reddit\UserAgentGenerator;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
-use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\TransferStats;
 use Illuminate\Support\Facades\Log;
+use Psr\Http\Message\ResponseInterface;
 
-class RedditPostsBulk extends PoolPromiseReactive
+class RedditPostsBulk extends PoolPromiseReactiveDynamic
 {
     use UserAgentGenerator;
 
+    /**
+     * Listings currently return maximum of 1000 items.
+     *
+     * @var array
+     */
     protected $options = [
         'pages_per_subreddit' => 1,
         'max_items_per_request' => 100,
@@ -23,9 +27,10 @@ class RedditPostsBulk extends PoolPromiseReactive
 
     protected $pagesSeenPerSubreddit = [];
 
-    protected $requestOptions = [
-        'http_errors' => true
-    ];
+    protected function getClient(RequestClientFactoryInterface $clientFactory)
+    {
+        return $clientFactory->getRedditRateLimitedClient();
+    }
 
     public function createRequests()
     {
@@ -34,6 +39,7 @@ class RedditPostsBulk extends PoolPromiseReactive
                 $this->createRequest($subreddit)
             );
         }
+
         return $this->requests;
     }
 
@@ -73,8 +79,6 @@ class RedditPostsBulk extends PoolPromiseReactive
     {
         $sub = $response->_requestManagerData['subreddit'];
 
-        dump($sub);
-
         if (!isset($this->pagesSeenPerSubreddit[$sub])) {
             $this->pagesSeenPerSubreddit[$sub] = 1;
         } else {
@@ -82,15 +86,11 @@ class RedditPostsBulk extends PoolPromiseReactive
         }
 
         if ($this->pagesSeenPerSubreddit[$sub] === $this->getOption('pages_per_subreddit')) {
-            dump('no need');
             return;
         }
 
-        dump($response->getReasonPhrase());
-        dump($response->_requestManagerData);
-
         $jsonResponse = json_decode($response->getBody());
-        $after = $jsonResponse->data->after;
+        $after = $jsonResponse->data->after ?? null;
 
         if (!is_string($after)) {
             return;
@@ -113,5 +113,4 @@ class RedditPostsBulk extends PoolPromiseReactive
             throw $exception;
         }
     }
-
 }

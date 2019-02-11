@@ -2,6 +2,8 @@
 
 namespace App\Scraper\Base\RequestManager;
 
+use App\Factories\RequestClientFactoryInterface;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 
@@ -39,4 +41,12 @@ class BaseOneByOneRequestManager extends BaseRequestManager
         }
     }
 
+    /**
+     * @param RequestClientFactoryInterface $clientFactory
+     * @return ClientInterface
+     */
+    protected function getClient(RequestClientFactoryInterface $clientFactory)
+    {
+        return $clientFactory->getClient();
+    }
 }
