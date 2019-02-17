@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\Repositories\RedditTokenRepository;
-use App\Repositories\UserRepository;
+use App\Repositories\Contract\TokenRepository;
+use App\Repositories\Contract\UserRepository;
 use App\Scraper\Reddit\UserAgentGenerator;
 use GuzzleHttp\ClientInterface;
-use App\Models\User\RedditToken as Token;
-use Illuminate\Support\Facades\DB;
 
 class TokenService
 {
@@ -19,7 +17,7 @@ class TokenService
 
     public function __construct(
         UserRepository $userRepository,
-        RedditTokenRepository $tokenRepository,
+        TokenRepository $tokenRepository,
         ClientInterface $requestClient
     )
     {
@@ -28,27 +26,9 @@ class TokenService
         $this->requestClient = $requestClient;
     }
 
-    public function getTokenForRequestor()
-    {
-        $this->getTokenFromDatabase();
-        // First try getting a freshest, most relevant token from DB (user hardcoded, then newest)
-        // If nothing, we use Application Only OAuth as a last-resort
-    }
-
     public function getTokenFromDatabase()
     {
-        // TODO: REVAMP REPOSITORIES FUCK
-        // TODO: Global settings, fetch specified user token (hardcoding in database)
-        // TODO: Change query to be based on `token_expires_in_seconds` column
-
-        $token = Token::
-            select('access_token')
-            ->where('expires_at', '>', DB::raw('DATE_ADD(NOW(), INTERVAL 5 MINUTE)'))
-            ->limit(1)
-            ->get()
-            ->first();
-
-        return $token !== null ? $token->access_token : null;
+        return $this->tokenRepository->getFresh();
     }
 
     /**

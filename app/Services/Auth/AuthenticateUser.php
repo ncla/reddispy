@@ -59,7 +59,6 @@ class AuthenticateUser
             ]
         );
 
-        // TODO: https://laravel.com/docs/5.7/contracts#contract-reference
         $this->auth->login($user, true);
 
         return $listener->successfulLogin();

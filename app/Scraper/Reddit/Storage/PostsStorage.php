@@ -2,8 +2,8 @@
 
 namespace App\Scraper\Reddit\Storage;
 
-use App\Repositories\PostHistoryRepository;
-use App\Repositories\PostRepository;
+use App\Repositories\Contract\PostHistoryRepository;
+use App\Repositories\Contract\PostRepository;
 use App\Scraper\Base\Storage\DatabaseStorageInterface;
 
 class PostsStorage implements DatabaseStorageInterface
@@ -35,7 +35,14 @@ class PostsStorage implements DatabaseStorageInterface
             ]));
         });
 
-        $this->postsRepository->makeModel()->newModelQuery()->insertIgnore($postInsertFiltered->all());
+        $idsPlucked = $postInsertFiltered->pluck('reddit_id');
+
+        $postIdsExistInDatabase = $this->postsRepository->findPostIds($idsPlucked);
+
+        // Filter posts that already exist in database to avoid incrementing AUTO_INCREMENT with INSERT IGNORE queries
+        $postsInsert = $postInsertFiltered->whereNotIn('reddit_id', $postIdsExistInDatabase->pluck('reddit_id'));
+
+        $this->postsRepository->insertIgnore($postsInsert->all());
 
         $postHistoryInsertFiltered = $collection->map(function($item) {
             $newItem = array_intersect_key($item, array_flip([
@@ -51,6 +58,6 @@ class PostsStorage implements DatabaseStorageInterface
             return $newItem;
         });
 
-        $this->postsHistoryRepository->makeModel()->newModelQuery()->insertIgnore($postHistoryInsertFiltered->all());
+        $this->postsHistoryRepository->insertIgnore($postHistoryInsertFiltered->all());
     }
 }

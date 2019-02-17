@@ -15,10 +15,10 @@
         "fideloper/proxy": "^4.0",
         "guidocella/eloquent-insert-on-duplicate-key": "^2.2",
         "guzzlehttp/guzzle": "~6.0",
+        "kevinrob/guzzle-cache-middleware": "^3.2",
         "laravel/framework": "5.7.*",
         "laravel/socialite": "^4.0",
         "laravel/tinker": "^1.0",
-        "prettus/l5-repository": "^2.6",
         "rtheunissen/guzzle-rate-limiter": "^2.0",
         "socialiteproviders/reddit": "^3.0"
     },

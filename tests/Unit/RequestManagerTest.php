@@ -88,22 +88,6 @@ class RequestManagerTest extends TestCase
         $this->assertStringContainsString('ReddiSpy', $requests[0]->getHeader('user-agent')[0]);
     }
 
-    public function testIfOptionsMerge()
-    {
-        $requestor = new BaseOneByOneRequestor(new RequestClientFactory());
-
-        $this->assertEmpty($requestor->getOptions());
-
-        $requestor->options(['subreddits' => ['Muse']]);
-
-        $this->assertNotEmpty($requestor->getOptions()['subreddits']);
-        $this->assertContains('Muse', $requestor->getOptions()['subreddits']);
-
-        $requestor->options(['subreddits' => ['Muse 2']]);
-
-        $this->assertNotContains('Muse', $requestor->getOptions()['subreddits']);
-    }
-
     public function testRequestResponsesGetPushedToResponseArray()
     {
         $mockHandler = new MockHandler([

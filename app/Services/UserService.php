@@ -2,21 +2,22 @@
 
 namespace App\Services;
 
+use App\Repositories\Contract\TokenRepository;
 use App\Repositories\RedditTokenRepository;
-use App\Repositories\UserRepository;
+use App\Repositories\Contract\UserRepository;
 
 class UserService
 {
     private $userRepository;
     private $tokenRepository;
 
-    public function __construct(UserRepository $userRepository, RedditTokenRepository $tokenRepository)
+    public function __construct(UserRepository $userRepository, TokenRepository $tokenRepository)
     {
         $this->userRepository = $userRepository;
         $this->tokenRepository = $tokenRepository;
     }
 
-    // TO-DO: More specific Exception class
+    // TODO: More specific Exception class
     public function registerUserWithAccessToken($userData, $tokenData)
     {
         $user = $this->userRepository->updateOrCreate(
