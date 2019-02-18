@@ -30,7 +30,7 @@ abstract class EloquentDatabaseStorage implements DatabaseStorageInterface
     {
         $model = new $class;
 
-        if (!$model instanceof Model) {
+        if (! $model instanceof Model) {
             // Change exception
             throw new \ErrorException("Class {$this->model} must be an instance of Illuminate\\Database\\Eloquent\\Model");
         }

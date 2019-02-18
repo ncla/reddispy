@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Scraper\Reddit\RedditPostScraper;
 use App\Services\TokenService;
-use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
 class FetchRedditPosts extends Command

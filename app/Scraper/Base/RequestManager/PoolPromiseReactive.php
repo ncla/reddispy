@@ -13,8 +13,6 @@ use Psr\Http\Message\ResponseInterface;
  * Class PoolPromiseReactive
  *
  * Only good for predetermined requests in advance, not dynamic.
- *
- * @package App\Scraper\Base\RequestManager
  */
 abstract class PoolPromiseReactive extends BaseRequestManager
 {
@@ -34,7 +32,7 @@ abstract class PoolPromiseReactive extends BaseRequestManager
     protected function requestGenerator()
     {
         while ($request = array_pop($this->requests)) {
-            yield function($poolOptions) use ($request) {
+            yield function ($poolOptions) use ($request) {
                 $optionsMerged = array_merge($this->requestOptions, $poolOptions);
 
                 return $this->client->sendAsync($request, $optionsMerged)->then(function (GuzzleResponse $response) use ($request) {
@@ -74,12 +72,10 @@ abstract class PoolPromiseReactive extends BaseRequestManager
 
     protected function onSuccessfulResponse(ResponseInterface $response)
     {
-        return;
     }
 
     protected function onRejectedResponse($exception)
     {
         throw new $exception;
     }
-
 }

@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Scraper\RedditPostScraper;
+use Illuminate\Console\Command;
 
 class FetchAll extends Command
 {

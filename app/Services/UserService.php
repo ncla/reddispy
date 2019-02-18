@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\Contract\TokenRepository;
-use App\Repositories\RedditTokenRepository;
 use App\Repositories\Contract\UserRepository;
 
 class UserService
@@ -25,7 +24,7 @@ class UserService
             ['avatar' => $userData['avatar']]
         );
 
-        if (!$user) {
+        if (! $user) {
             throw new \Exception('User failed to register in database');
         }
 
@@ -40,11 +39,10 @@ class UserService
             ]
         );
 
-        if (!$token) {
+        if (! $token) {
             throw new \Exception('User tokens failed to register in database');
         }
 
         return $user;
     }
-
 }

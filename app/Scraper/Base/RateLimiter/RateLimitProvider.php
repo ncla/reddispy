@@ -2,8 +2,8 @@
 
 namespace App\Scraper\Base\RateLimiter;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * An object which manages rate data for a rate limiter, which uses the data to

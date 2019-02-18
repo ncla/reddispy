@@ -13,10 +13,7 @@ use Psr\Http\Message\ResponseInterface;
  *
  * Do: generate requests, request pool, get responses and return. This only does requests, and gets responses.
  * Do not: specific request management (rate limits, concurrency), checking if response is good or not
- *
- * @package App\Scraper\Reddit\RequestManager
  */
-
 abstract class BaseRequestManager
 {
     use HasOptions;

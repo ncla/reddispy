@@ -178,7 +178,6 @@ return [
         \SocialiteProviders\Manager\ServiceProvider::class,
         App\Providers\RepositoryProvider::class
 
-
     ],
 
     /*

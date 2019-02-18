@@ -32,7 +32,7 @@ trait UserAgentGenerator
 
         $composerJsonParsed = json_decode($composerContents);
 
-        if (!isset($composerJsonParsed->version)) {
+        if (! isset($composerJsonParsed->version)) {
             return 'undefined';
         }
 

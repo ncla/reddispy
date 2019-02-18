@@ -5,7 +5,6 @@ namespace App\Scraper\Base\RequestManager;
 use App\Factories\RequestClientFactoryInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7;
 
 class BaseOneByOneRequestManager extends BaseRequestManager
 {

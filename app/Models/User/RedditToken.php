@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RedditToken extends Model
 {
-
     protected $table = 'tokens';
 
     protected $fillable = [
@@ -26,5 +25,4 @@ class RedditToken extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

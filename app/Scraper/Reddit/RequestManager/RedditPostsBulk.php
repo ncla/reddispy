@@ -79,7 +79,7 @@ class RedditPostsBulk extends PoolPromiseReactiveDynamic
     {
         $sub = $response->_requestManagerData['subreddit'];
 
-        if (!isset($this->pagesSeenPerSubreddit[$sub])) {
+        if (! isset($this->pagesSeenPerSubreddit[$sub])) {
             $this->pagesSeenPerSubreddit[$sub] = 1;
         } else {
             $this->pagesSeenPerSubreddit[$sub]++;
@@ -92,7 +92,7 @@ class RedditPostsBulk extends PoolPromiseReactiveDynamic
         $jsonResponse = json_decode($response->getBody());
         $after = $jsonResponse->data->after ?? null;
 
-        if (!is_string($after)) {
+        if (! is_string($after)) {
             return;
         }
 

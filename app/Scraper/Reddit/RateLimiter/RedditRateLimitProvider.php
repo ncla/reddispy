@@ -3,21 +3,18 @@
 namespace App\Scraper\Reddit\RateLimiter;
 
 use App\Scraper\Base\RateLimiter\RateLimitProvider;
+use Illuminate\Support\Facades\Cache;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Class RedditRateLimitProvider
  *
  * https://github.com/reddit-archive/reddit/wiki/API#rules
  * https://github.com/rtheunissen/guzzle-rate-limiter
- *
- * @package App\Scraper\Base
  */
 class RedditRateLimitProvider implements RateLimitProvider
 {
-
     /**
      * @param RequestInterface $request
      * @return float|mixed|null
@@ -29,7 +26,6 @@ class RedditRateLimitProvider implements RateLimitProvider
         return $lastRequestTime;
     }
 
-
     /**
      * @param RequestInterface $request
      * @param $delay float Time in seconds
@@ -37,8 +33,6 @@ class RedditRateLimitProvider implements RateLimitProvider
     public function setLastRequestTime(RequestInterface $request, $delay)
     {
         Cache::put('last_request_time', (microtime(true) + $delay), 10);
-
-        return;
     }
 
     /**
@@ -75,7 +69,7 @@ class RedditRateLimitProvider implements RateLimitProvider
         // current window, the second tells us how many seconds are left in the
         // window before it expires.
         $requests = $response->getHeader('x-ratelimit-remaining');
-        $resetsInSeconds  = $response->getHeader('x-ratelimit-reset');
+        $resetsInSeconds = $response->getHeader('x-ratelimit-reset');
 
         if (empty($requests) || empty($resetsInSeconds)) {
             return $this->setAllowanceInStorage((float) 1);
@@ -107,8 +101,5 @@ class RedditRateLimitProvider implements RateLimitProvider
     protected function setAllowanceInStorage($allowance)
     {
         Cache::put('request_allowance', (float) $allowance, 10);
-
-        return;
     }
-
 }

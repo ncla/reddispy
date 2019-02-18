@@ -14,8 +14,7 @@ class PostsStorage implements DatabaseStorageInterface
     public function __construct(
         PostRepository $postsRepository,
         PostHistoryRepository $postHistoryRepository
-    )
-    {
+    ) {
         $this->postsRepository = $postsRepository;
         $this->postsHistoryRepository = $postHistoryRepository;
     }
@@ -24,7 +23,7 @@ class PostsStorage implements DatabaseStorageInterface
     {
         $collection = collect($data);
 
-        $postInsertFiltered = $collection->map(function($item) {
+        $postInsertFiltered = $collection->map(function ($item) {
             return array_intersect_key($item, array_flip([
                 'reddit_id',
                 'title',
@@ -44,7 +43,7 @@ class PostsStorage implements DatabaseStorageInterface
 
         $this->postsRepository->insertIgnore($postsInsert->all());
 
-        $postHistoryInsertFiltered = $collection->map(function($item) {
+        $postHistoryInsertFiltered = $collection->map(function ($item) {
             $newItem = array_intersect_key($item, array_flip([
                 'reddit_id',
                 'score',

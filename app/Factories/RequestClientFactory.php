@@ -10,7 +10,6 @@ use GuzzleHttp\HandlerStack;
 
 class RequestClientFactory implements RequestClientFactoryInterface
 {
-
     public function getClient()
     {
         return new Client();
@@ -26,5 +25,4 @@ class RequestClientFactory implements RequestClientFactoryInterface
 
         return new Client(['handler' => $handlerStack]);
     }
-
 }

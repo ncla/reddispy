@@ -4,15 +4,13 @@ namespace App\Services\Auth;
 
 use App\Http\Controllers\Auth\LoginUserListener;
 use App\Services\UserService;
-use Laravel\Socialite\Contracts\Factory as Socialite;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Laravel\Socialite\Contracts\Factory as Socialite;
 
 /**
  * Class AuthenticateUser
  *
  * https://laracasts.com/series/whats-new-in-laravel-5/episodes/9
- *
- * @package App\Services\Auth
  */
 class AuthenticateUser
 {
@@ -26,8 +24,7 @@ class AuthenticateUser
         Socialite $socialiteProvider,
         UserService $userService,
         Auth $auth
-    )
-    {
+    ) {
         $this->socialite = $socialiteProvider;
         $this->userService = $userService;
         $this->auth = $auth;
@@ -72,19 +69,19 @@ class AuthenticateUser
      */
     protected function validateAccessTokenResponseBody($data)
     {
-        if (!isset($data['refresh_token'])) {
+        if (! isset($data['refresh_token'])) {
             return false;
         }
 
         $scopesArray = explode(' ', $data['scope']);
         $requiredScopes = RedditTokenConstants::$REQUIRED_SCOPES;
 
-        /**
+        /*
          * Compares both arrays to see if we have the same scope values
          * https://stackoverflow.com/a/32810261
          */
         if (
-            !($scopesArray === array_intersect($scopesArray, $requiredScopes)
+            ! ($scopesArray === array_intersect($scopesArray, $requiredScopes)
                 && $requiredScopes === array_intersect($requiredScopes, $scopesArray))
         ) {
             return false;
@@ -92,5 +89,4 @@ class AuthenticateUser
 
         return true;
     }
-
 }
