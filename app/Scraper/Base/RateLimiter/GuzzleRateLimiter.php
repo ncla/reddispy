@@ -81,7 +81,7 @@ class GuzzleRateLimiter
     protected function log(RequestInterface $request, $delay)
     {
         if (isset($this->logger)) {
-            $level   = $this->getLogLevel($request);
+            $level = $this->getLogLevel($request);
             $message = $this->getLogMessage($request, $delay);
             $context = compact('request', 'delay');
 
@@ -100,7 +100,7 @@ class GuzzleRateLimiter
     protected function getLogMessage(RequestInterface $request, $delay)
     {
         return vsprintf("[%s] %s %s was delayed by {$delay} seconds", [
-            gmdate("d/M/Y:H:i:s O"),
+            gmdate('d/M/Y:H:i:s O'),
             $request->getMethod(),
             $request->getUri()
         ]);
@@ -136,7 +136,7 @@ class GuzzleRateLimiter
      */
     protected function getLogLevel(RequestInterface $request)
     {
-        if (!$this->logLevel) {
+        if (! $this->logLevel) {
             return $this->getDefaultLogLevel();
         }
 
@@ -156,9 +156,9 @@ class GuzzleRateLimiter
      */
     protected function getDelay(RequestInterface $request)
     {
-        $lastRequestTime  = $this->provider->getLastRequestTime($request);
+        $lastRequestTime = $this->provider->getLastRequestTime($request);
         $requestAllowance = $this->provider->getRequestAllowance($request);
-        $requestTime      = $this->provider->getRequestTime($request);
+        $requestTime = $this->provider->getRequestTime($request);
 
         $this->log($request, json_encode([$lastRequestTime,
             $requestAllowance,
@@ -197,6 +197,7 @@ class GuzzleRateLimiter
     {
         return function (ResponseInterface $response) {
             $this->provider->setRequestAllowance($response);
+
             return $response;
         };
     }

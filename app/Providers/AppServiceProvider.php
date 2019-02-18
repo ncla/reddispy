@@ -4,16 +4,15 @@ namespace App\Providers;
 
 use App\Factories\RequestClientFactory;
 use App\Factories\RequestClientFactoryInterface;
-use App\Scraper\Base\Storage\DatabaseStorageInterface;
-use App\Scraper\Base\Storage\EloquentDatabaseStorage;
-use App\Scraper\Base\Storage\InsertModel;
-use App\Scraper\Base\RequestManager\BaseRequestManager;
 use App\Scraper\Base\RequestManager\BaseOneByOneRequestManager;
+use App\Scraper\Base\RequestManager\BaseRequestManager;
+use App\Scraper\Base\Storage\DatabaseStorageInterface;
+use App\Scraper\Base\Storage\InsertModel;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Promise\PromisorInterface;
 use Illuminate\Support\ServiceProvider;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Client;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,7 +31,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
     }
 
     /**
@@ -42,6 +40,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
     }
 }

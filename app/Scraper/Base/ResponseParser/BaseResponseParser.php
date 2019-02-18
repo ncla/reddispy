@@ -6,7 +6,6 @@ abstract class BaseResponseParser implements ResponseParserInterface
 {
     protected $parsedItems = [];
 
-
     abstract public function iterateResponses($responses);
 
     abstract protected function transformNodeIntoObject($data);

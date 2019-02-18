@@ -68,10 +68,10 @@ abstract class PoolPromiseReactiveDynamic extends BaseRequestManager
 
     public function sendRequests()
     {
-        $promise = \GuzzleHttp\Promise\each_limit($this->requestGenerator(), $this->concurrency, function($response) {
+        $promise = \GuzzleHttp\Promise\each_limit($this->requestGenerator(), $this->concurrency, function ($response) {
             $this->onSuccessfulResponse($response);
             $this->addResponse($response);
-        }, function($reason) {
+        }, function ($reason) {
             $this->onRejectedResponse($reason);
         });
 
@@ -80,12 +80,10 @@ abstract class PoolPromiseReactiveDynamic extends BaseRequestManager
 
     protected function onSuccessfulResponse(ResponseInterface $response)
     {
-        return;
     }
 
     protected function onRejectedResponse($exception)
     {
         throw new $exception;
     }
-
 }

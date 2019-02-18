@@ -19,8 +19,7 @@ class TokenService
         UserRepository $userRepository,
         TokenRepository $tokenRepository,
         ClientInterface $requestClient
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->tokenRepository = $tokenRepository;
         $this->requestClient = $requestClient;
@@ -62,5 +61,4 @@ class TokenService
 
         return $responseJson->access_token;
     }
-
 }

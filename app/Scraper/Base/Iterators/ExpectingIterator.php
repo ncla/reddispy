@@ -11,8 +11,6 @@ namespace App\Scraper\Base\Iterators;
  * https://stackoverflow.com/questions/42754389/guzzle-pool-wait-for-requests/43525426#43525426
  *
  * Do not extend IteratorIterator, because it cashes the return values somehow!
- *
- * @package App\Scraper\Base\Iterators
  */
 class ExpectingIterator implements \Iterator
 {
@@ -29,7 +27,7 @@ class ExpectingIterator implements \Iterator
 
     public function next()
     {
-        if (!$this->wasValid && $this->valid()) {
+        if (! $this->wasValid && $this->valid()) {
             // Just do nothing, because the inner iterator has became valid.
         } else {
             $this->inner->next();

@@ -1,10 +1,9 @@
 <?php
 
-
 namespace App\Scraper\Reddit\ResponseParser;
 
-use Psr\Http\Message\ResponseInterface;
 use App\Scraper\Base\ResponseParser\BaseResponseParser;
+use Psr\Http\Message\ResponseInterface;
 
 class RedditBulkPostsApiParser extends BaseResponseParser
 {
@@ -34,8 +33,7 @@ class RedditBulkPostsApiParser extends BaseResponseParser
             'upvote_ratio' => null,
             'subreddit_id' => str_replace('t5_', '', $data->subreddit_id),
             'subreddit_name' => $data->subreddit,
-            'submitted_at' => date("Y-m-d H:i:s", $data->created)
+            'submitted_at' => date('Y-m-d H:i:s', $data->created)
         ];
     }
-
 }

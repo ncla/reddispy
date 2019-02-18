@@ -30,12 +30,14 @@ class BaseScraper implements ScraperInterface
     public function fetch()
     {
         $this->requestManager->scrape();
+
         return $this->requestManager->getAllResponses();
     }
 
     public function parse($responses)
     {
         $this->parser->iterateResponses($responses);
+
         return $this->parser->getAllParsedObjects();
     }
 
@@ -43,5 +45,4 @@ class BaseScraper implements ScraperInterface
     {
         return $this->storage->store($items);
     }
-
 }

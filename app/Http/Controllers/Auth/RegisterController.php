@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginHandleRequest;
 use App\Services\Auth\AuthenticateUser;
-use Illuminate\Http\Request;
-use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
 
 class RegisterController extends Controller implements LoginUserListener
 {
@@ -53,5 +50,4 @@ class RegisterController extends Controller implements LoginUserListener
     {
         return redirect($this->redirectTo);
     }
-
 }
