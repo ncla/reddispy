@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class EloquentTokenRepository implements TokenRepository
 {
-    public function updateOrCreate($searchAgainst, $updateWith) {
+    public function updateOrCreate($searchAgainst, $updateWith)
+    {
         return RedditToken::updateOrCreate($searchAgainst, $updateWith);
     }
 
