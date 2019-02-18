@@ -8,6 +8,8 @@ class PostHistory extends Model
 {
     protected $table = 'posts_history';
 
+    const UPDATED_AT = null;
+
     protected $fillable = [
         'post_id',
         'score',

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    public $timestamps = true;
+
     protected $table = 'posts';
 
     protected $fillable = [
@@ -17,6 +19,6 @@ class Post extends Model
 
     public function history()
     {
-
+        return $this->hasMany(PostHistory::class, 'post_reddit_id', 'reddit_id');
     }
 }
