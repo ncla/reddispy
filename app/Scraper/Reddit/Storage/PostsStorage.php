@@ -41,7 +41,7 @@ class PostsStorage implements DatabaseStorageInterface
         // Filter posts that already exist in database to avoid incrementing AUTO_INCREMENT with INSERT IGNORE queries
         $postsInsert = $postInsertFiltered->whereNotIn('reddit_id', $postIdsExistInDatabase->pluck('reddit_id'));
 
-        $this->postsRepository->insertIgnore($postsInsert->all());
+        $this->postsRepository->insert($postsInsert->all());
 
         $postHistoryInsertFiltered = $collection->map(function ($item) {
             $newItem = array_intersect_key($item, array_flip([
@@ -54,9 +54,13 @@ class PostsStorage implements DatabaseStorageInterface
             $newItem['post_reddit_id'] = $newItem['reddit_id'];
             unset($newItem['reddit_id']);
 
+            // SQLite in tests fails because it does not populate timestamp when doing bulk insert,
+            // while doing the same on MySQL works just fine.
+            $newItem['created_at'] = now()->toDateTimeString();
+
             return $newItem;
         });
 
-        $this->postsHistoryRepository->insertIgnore($postHistoryInsertFiltered->all());
+        $this->postsHistoryRepository->insert($postHistoryInsertFiltered->all());
     }
 }

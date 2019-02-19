@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostHistory extends Model
 {
-    protected $table = 'posts_history';
-
     const UPDATED_AT = null;
 
+    protected $table = 'posts_history';
+
     protected $fillable = [
-        'post_id',
+        'post_reddit_id',
         'score',
         'upvote_ratio',
         'view_count' .

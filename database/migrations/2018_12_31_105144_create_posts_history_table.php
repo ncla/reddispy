@@ -19,7 +19,7 @@ class CreatePostsHistoryTable extends Migration
             $table->integer('score')->nullable();
             $table->float('upvote_ratio')->nullable();
             $table->integer('view_count')->nullable();
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

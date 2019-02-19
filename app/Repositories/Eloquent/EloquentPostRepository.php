@@ -7,6 +7,11 @@ use App\Repositories\Contract\PostRepository;
 
 class EloquentPostRepository implements PostRepository
 {
+    public function insert($entries)
+    {
+        return Post::insert($entries);
+    }
+
     public function insertIgnore($entries)
     {
         return Post::insertIgnore($entries);

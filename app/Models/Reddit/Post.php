@@ -14,6 +14,8 @@ class Post extends Model
         'reddit_id',
         'title',
         'post_text',
+        'subreddit_id',
+        'subreddit_name',
         'submitted_at'
     ];
 

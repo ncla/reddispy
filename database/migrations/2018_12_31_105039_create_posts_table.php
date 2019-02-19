@@ -16,8 +16,8 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('reddit_id')->unique();
-            $table->string('title');
-            $table->text('post_text')->nullable();
+            $table->string('title', 300);
+            $table->text('post_text', 40000)->nullable();
             $table->string('subreddit_id');
             $table->string('subreddit_name');
             $table->timestamp('submitted_at');
