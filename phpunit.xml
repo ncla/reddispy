@@ -31,5 +31,8 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="DB_CONNECTION" value="sqlite" force="true"/>
         <env name="DB_DATABASE" value=":memory:" force="true"/>
+        <env name="REDDIT_KEY" value="asduhf3huo2fhnajosdfhj"/>
+        <env name="REDDIT_SECRET" value="123984uaioedsfhasdui"/>
+        <env name="REDDIT_REDIRECT_URI" value="https://homestead.test/auth/callback"/>
     </php>
 </phpunit>

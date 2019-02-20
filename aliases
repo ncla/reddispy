@@ -5,8 +5,27 @@ alias h='cd ~'
 alias c='clear'
 alias art=artisan
 
+alias gs='git status'
+
+function ga() {
+    git add "$@"
+}
+
+function gc() {
+    git commit "$@"
+}
+
+function gf() {
+    git diff "$@"
+}
+
+function c() {
+    composer "$@"
+}
+
 alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
+alias test='vendor/bin/phpunit --testdox'
 alias serve=serve-laravel
 
 alias xoff='sudo phpdismod -s cli xdebug'

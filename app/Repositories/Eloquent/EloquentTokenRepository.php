@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\User\RedditToken;
 use App\Repositories\Contract\TokenRepository;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 
 class EloquentTokenRepository implements TokenRepository
@@ -15,14 +16,15 @@ class EloquentTokenRepository implements TokenRepository
 
     /**
      * TODO: Global settings, fetch specified user token (hardcoding in database)
-     * TODO: Change query to be based on `token_expires_in_seconds` column
      *
      * @return string|null
      */
     public function getFresh()
     {
+        $timeRequirement = now()->addMinutes(5)->toDateTimeString();
+
         $token = RedditToken::select('access_token')
-            ->where('expires_at', '>', DB::raw('DATE_ADD(NOW(), INTERVAL 5 MINUTE)'))
+            ->where('expires_at', '>', $timeRequirement)
             ->limit(1)
             ->get()
             ->first();

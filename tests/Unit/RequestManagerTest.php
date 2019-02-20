@@ -4,20 +4,13 @@ namespace Tests\Unit;
 
 use App\Factories\RequestClientFactory;
 use App\Factories\RequestClientFactoryInterface;
-use App\Scraper\Reddit\RateLimiter\RedditRateLimitProvider;
-use App\Scraper\Base\RequestManager\BaseOneByOneRequestManager as BaseOneByOneRequestor;
 use App\Scraper\Reddit\RequestManager\RedditPostsBulk as RedditPostRequestor;
-use App\Scraper\Base\RateLimiter\GuzzleRateLimiter as RateLimiter;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\RequestInterface;
 use Tests\RequestManagerMockTrait;
 use Tests\TestCase;
+use Mockery;
 
 class RequestManagerTest extends TestCase
 {
@@ -56,9 +49,11 @@ class RequestManagerTest extends TestCase
         ]);
 
         $mockedClient = $this->setUpRedditPostClientWithMockHandler($mockHandler);
-        $factoryMock = $this->createMock(RequestClientFactoryInterface::class);
-        $factoryMock->method('getRedditRateLimitedClient')
-            ->willReturn($mockedClient);
+
+        $factoryMock = Mockery::mock(RequestClientFactoryInterface::class);
+        $factoryMock->shouldReceive('getRedditRateLimitedClient')
+            ->once()
+            ->andReturn($mockedClient);
 
         $requestor = new RedditPostRequestor($factoryMock);
         $requestor->options(['subreddits' => ['Muse', 'Radiohead']]);
@@ -76,9 +71,10 @@ class RequestManagerTest extends TestCase
         ]);
 
         $mockedClient = $this->setUpRedditPostClientWithMockHandler($mock);
-        $factoryMock = $this->createMock(RequestClientFactoryInterface::class);
-        $factoryMock->method('getRedditRateLimitedClient')
-            ->willReturn($mockedClient);
+        $factoryMock = Mockery::mock(RequestClientFactoryInterface::class);
+        $factoryMock->shouldReceive('getRedditRateLimitedClient')
+            ->once()
+            ->andReturn($mockedClient);
 
         $requestor = new RedditPostRequestor($factoryMock);
 
@@ -93,9 +89,10 @@ class RequestManagerTest extends TestCase
         ]);
 
         $mockedClient = $this->setUpRedditPostClientWithMockHandler($mock);
-        $factoryMock = $this->createMock(RequestClientFactoryInterface::class);
-        $factoryMock->method('getRedditRateLimitedClient')
-            ->willReturn($mockedClient);
+        $factoryMock = Mockery::mock(RequestClientFactoryInterface::class);
+        $factoryMock->shouldReceive('getRedditRateLimitedClient')
+            ->once()
+            ->andReturn($mockedClient);
 
         $requestor = new RedditPostRequestor($factoryMock);
 
@@ -121,9 +118,10 @@ class RequestManagerTest extends TestCase
         ]);
 
         $mockedClient = $this->setUpRedditPostClientWithMockHandler($mock);
-        $factoryMock = $this->createMock(RequestClientFactoryInterface::class);
-        $factoryMock->method('getRedditRateLimitedClient')
-            ->willReturn($mockedClient);
+        $factoryMock = Mockery::mock(RequestClientFactoryInterface::class);
+        $factoryMock->shouldReceive('getRedditRateLimitedClient')
+            ->once()
+            ->andReturn($mockedClient);
 
         $requestor = new RedditPostRequestor($factoryMock);
         $requestor->concurrency = 1;

@@ -9,6 +9,7 @@ $factory->define(App\Models\User\RedditToken::class, function (Faker $faker) {
         },
         'refresh_token' => $faker->sha256(),
         'access_token' => $faker->sha256(),
-        'token_expires_in_seconds' => 3600
+        'token_expires_in_seconds' => 3600,
+        'expires_at' => now()->addSeconds(3600)->toDateTimeString()
     ];
 });
