@@ -4,8 +4,6 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\User\RedditToken;
 use App\Repositories\Contract\TokenRepository;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\DB;
 
 class EloquentTokenRepository implements TokenRepository
 {
